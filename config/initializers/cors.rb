@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'localhost:3000' # TODO: 
+    origins '*' # TODO 適切に変える。できれば開発用とプロダクション用とで分岐させる
 
     resource '*',
       headers: :any,
