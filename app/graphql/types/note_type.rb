@@ -6,8 +6,7 @@ module Types
   end
 
   # TODO 定義場所はここで良いか？
-  # TODO クラス名はこれで良いか？
-  class NewNoteType < Types::BaseInputObject
+  class NoteInputType < Types::BaseInputObject
     argument :id, ID, required: false
     argument :subject, String, required: false
     argument :body, String, required: false

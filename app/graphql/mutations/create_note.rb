@@ -3,7 +3,7 @@ module Mutations
     field :note, Types::NoteType, null: true
     field :result, Boolean, null: true
 
-    argument :note, Types::NewNoteType, required: true
+    argument :note, Types::NoteInputType, required: true
 
     def resolve(**args)
       note = Note.create(subject: args[:note].subject, body: args[:note].body)
