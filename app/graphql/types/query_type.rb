@@ -3,7 +3,7 @@ module Types
     field :note, NoteType, null: false do
       argument :id, ID, required: true
     end
-    def note(id:)
+    def note(id)
       Note.find(id)
     end
 
