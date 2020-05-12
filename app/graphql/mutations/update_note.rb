@@ -6,16 +6,25 @@ module Mutations
     argument :note, Types::NoteInputType, required: true
 
     def resolve(**args)
-      note = Note.find(args[:note].id)
+      if args[:note].id.nil?
+        raise GraphQL::ExecutionError, "更新するノートのidが与えられていません2"
+      end
+      id = args[:note].id
+
+      begin
+        note = Note.find(id)
+      rescue
+        raise GraphQL::ExecutionError, "更新しようとしたid=#{id}のノートは存在しません"
+      end
 
       mutation_arg = args[:note].to_kwargs
       mutation_arg.delete(:id)
-      note.update(mutation_arg)
-
-      {
-        note: note,
-        result: note.errors.blank? # TODO その他エラーも適切にハンドル
-      }
+      
+      if mutation_arg.empty? || note.update(mutation_arg)
+        { note: note }
+      else
+        { errors: note.errors.full_messages }
+      end
     end
   end
 end

@@ -7,11 +7,22 @@ module Mutations
 
     def resolve(**args)
       # TODO args[:note].idが存在する場合にエラーを吐く？
-      note = Note.create(subject: args[:note].subject, body: args[:note].body)
-      {
-        note: note,
-        result: note.errors.blank? # TODO その他エラーも適切にハンドル
-      }
+      if args[:note].subject.nil?
+        raise GraphQL::ExecutionError, "作成するノートのsubjectが与えられていません"
+      end
+      if args[:note].body.nil?
+        raise GraphQL::ExecutionError, "作成するノートのbodyが与えられていません"
+      end
+
+      note = Note.new
+      note.subject = args[:note].subject
+      note.body = args[:note].body
+      
+      if note.save
+        { note: note }
+      else
+        { errors: note.errors.full_messages }
+      end
     end
   end
 end
