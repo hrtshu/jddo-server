@@ -1,7 +1,7 @@
 module Mutations
   class UpdateNote < BaseMutation
     field :note, Types::NoteType, null: true
-    field :result, Boolean, null: true
+    field :errors, Boolean, null: true
 
     argument :note, Types::NoteInputType, required: true
 
